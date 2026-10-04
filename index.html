@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Qué vamos a hacer?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#fff3f5;--card:#fff;--ink:#4a1426;--mut:#9a5568;--acc:#e11d48;--on:#fff;--soft:#ffe1e8;--bd:#fbc4d0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2b0f19;--card:#3b1624;--ink:#ffe4ea;--mut:#f2a7b8;--acc:#fb4f74;--on:#2b0f19;--soft:#4d1c2d;--bd:#6e2b42}}
+:root[data-theme="dark"]{--bg:#2b0f19;--card:#3b1624;--ink:#ffe4ea;--mut:#f2a7b8;--acc:#fb4f74;--on:#2b0f19;--soft:#4d1c2d;--bd:#6e2b42}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg);height:100%}
+body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:Fredoka,ui-rounded,system-ui,sans-serif;overflow-x:hidden;display:flex;flex-direction:column}
+#app{flex:1;width:100%;max-width:480px;margin:0 auto;box-sizing:border-box;padding:16px 20px 24px;display:flex;flex-direction:column}
+.screen{flex:1;display:flex;flex-direction:column;animation:in .35s ease}
+.mid{justify-content:center;text-align:center;gap:12px}
+@keyframes in{from{opacity:0;transform:translateX(24px)}}
+@keyframes hop{50%{transform:translateY(-14px) rotate(-6deg)}}
+.big{font-size:72px;line-height:1;animation:hop 1.6s ease-in-out infinite}
+h1{font-size:44px;line-height:1.1;margin:8px 0 0;font-weight:600}
+h2{font-size:28px;line-height:1.2;margin:8px 0 20px;font-weight:600}
+.sub{font-size:20px;color:var(--mut);margin:0 0 24px}
+.btn{display:block;box-sizing:border-box;width:100%;text-align:center;text-decoration:none;font:500 19px Fredoka,ui-rounded,system-ui,sans-serif;background:var(--acc);color:var(--on);border:0;border-radius:999px;padding:16px 24px;cursor:pointer;margin-top:10px}
+.ghost{background:var(--soft);color:var(--ink)}
+.link{background:none;border:0;color:var(--mut);font:400 16px Fredoka,ui-rounded,system-ui,sans-serif;margin-top:14px;padding:8px;cursor:pointer;text-decoration:underline}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:12px;color:var(--mut);font-size:15px}
+.back{width:40px;height:40px;border-radius:50%;border:2px solid var(--bd);background:var(--card);color:var(--ink);font-size:20px;cursor:pointer;flex:none}
+.bar{flex:1;height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .3s ease}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opts .card:last-child:nth-child(odd){grid-column:span 2}
+.card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:110px;padding:16px 10px;border:2px solid var(--bd);border-radius:24px;background:var(--card);color:var(--ink);font:500 17px Fredoka,ui-rounded,system-ui,sans-serif;text-align:center;cursor:pointer;transition:transform .15s,background .15s,border-color .15s}
+.card b{font-size:36px;line-height:1;font-weight:400}
+.card:active{transform:scale(.96)}
+.card.on{border-color:var(--acc);background:var(--soft);transform:scale(1.03)}
+.sum{text-align:center}
+.sum .big{font-size:56px}
+.hero{font-size:26px;font-weight:600;background:var(--acc);color:var(--on);border-radius:24px;padding:16px;margin-bottom:16px}
+ul{list-style:none;margin:0 0 8px;padding:0;text-align:left}
+li{display:flex;align-items:center;gap:14px;padding:10px 14px;margin-bottom:8px;background:var(--card);border:2px solid var(--bd);border-radius:20px;font-size:18px}
+li b{font-size:28px;font-weight:400}
+li small{display:block;font-size:13px;color:var(--mut)}
+.tx{width:100%;box-sizing:border-box;font:400 20px Fredoka,ui-rounded,system-ui,sans-serif;padding:16px 18px;border:2px solid var(--bd);border-radius:20px;background:var(--card);color:var(--ink)}
+.tx:focus{outline:3px solid var(--acc);border-color:var(--acc)}
+.er{min-height:20px;margin:8px 4px 0;color:var(--acc);font-size:15px}
+.or{text-align:center;color:var(--mut);margin:16px 0 8px;font-size:15px}
+#wr{margin-top:16px}
+button:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<canvas id="cf" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+<script>
+const Q=[
+{l:'Plan',q:'¿Qué plan te apetece más?',o:[['🛍️','Ir de compras'],['🤔','Otra cosa'],['🛋️','Plan en casa']]},
+{l:'Ambiente',q:'¿Qué ambiente buscamos?',o:[['🕯️','Tranquilito'],['😂','De coñas'],['✨','De todo']]},
+{l:'Comida',q:'¿Qué te apetece comer?',o:[['🍝','Italiano'],['🍣','Japonés'],['🥘','Tapas'],['🍔','Hamburguesas'],['🌮','Mexicano'],['🎁','Sorpréndeme']]},
+{l:'Cómo comemos',q:'¿Y cómo lo comemos?',o:[['🍔','En un restaurante'],['🛵','Pedimos a casa'],['👩‍🍳','Cocinamos juntos']]},
+{l:'Actividad',q:'Si es otra cosa, entonces ¿qué?',o:[['✏️','Otra cosa: escríbelo'],['🎬','Cine'],['🚶','Dar un paseo']],w:1,wl:'Otra cosa: escríbelo',ico:'💡',ph:'Ej.: ir a bolos',er:'Escribe qué te apetece hacer'},
+{l:'Lugar',q:'¿Dónde lo hacemos?',o:[['🏙️','Centro'],['🏬','Cancelas'],['🏠','Casa'],['🗺️','Otro']]},
+{l:'Día',q:'¿Qué día te viene bien?',o:[['🌆','Viernes'],['🎈','Sábado'],['☀️','Domingo'],['📅','Entre semana']]},
+{l:'Hora',q:'¿Sobre qué hora?',t:1,ico:'🕘',ph:'Escríbelo tú, ej.: sobre las 9',er:'Escribe una hora aproximada para continuar'}
+];
+const N=Q.length,app=document.getElementById('app');
+let i=-1,a=[],lock=0;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ico=k=>{const f=Q[k].o&&Q[k].o.find(o=>o[1]===a[k]);return f?f[0]:Q[k].ico};
+const txt=()=>'💘 Nuestra cita\n'+Q.map((x,k)=>ico(k)+' '+x.l+': '+a[k]).join('\n');
+const bar=(p,n)=>'<div class="top"><button class="back" data-go="back" aria-label="Volver a la pregunta anterior">←</button><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(p)+'"><i style="width:'+p+'%"></i></div><span>'+n+'</span></div>';
+function render(){
+let h='';
+if(i<0){h='<section class="screen mid"><div class="big">💘</div><h1>¿Qué vamos a hacer?</h1><p class="sub">Así es más fácil decidirnos, ¿no?</p><button class="btn" data-go="start">Empezar</button></section>'}
+else if(i<N){const x=Q[i],cu=x.w&&a[i]&&!x.o.some(o=>o[1]===a[i]),inp='<input id="tx" class="tx" type="text" maxlength="40" autocomplete="off" placeholder="'+x.ph+'" value="'+((x.t||cu)?esc(a[i]||''):'')+'" aria-describedby="er"><p id="er" class="er" role="alert"></p><button class="btn" data-go="next">Siguiente</button>',cards=x.o?'<div class="opts">'+x.o.map(o=>'<button class="card'+((a[i]===o[1]||(cu&&o[1]===x.wl))?' on':'')+'" data-v="'+o[1]+'"><b>'+o[0]+'</b>'+o[1]+'</button>').join('')+'</div>':'';h=bar((i+1)/(N+1)*100,(i+1)+'/'+N)+'<section class="screen"><h2>'+x.q+'</h2>'+cards+(x.t?inp:'')+(x.w?'<div id="wr"'+(cu?'':' hidden')+'>'+inp+'</div>':'')+'</section>'}
+else if(i===N){h=bar(100,'')+'<section class="screen mid"><h2>¿Ves qué fácil? :)</h2><button class="btn" data-go="fin">Ver nuestro plan</button></section>'}
+else{h='<section class="screen sum"><div class="big">🎉</div><h2>¡Tenemos plan!</h2><div class="hero">'+esc(a[6]+' · '+a[7])+'</div><ul>'+Q.map((x,k)=>'<li><b>'+ico(k)+'</b><span><small>'+x.l+'</small>'+esc(a[k])+'</span></li>').join('')+'</ul><button class="btn" data-go="share">Compartir el plan</button><a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(txt())+'">Enviar por WhatsApp</a><button class="link" data-go="again">Empezar de nuevo</button></section>'}
+app.innerHTML=h;scrollTo(0,0);
+}
+async function share(b){
+const t=txt();
+try{if(navigator.share){await navigator.share({text:t});return}}catch(e){if(e&&e.name==='AbortError')return}
+try{await navigator.clipboard.writeText(t)}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(_){}x.remove()}
+b.textContent='¡Copiado!';setTimeout(()=>{b.textContent='Compartir el plan'},2000);
+}
+function confetti(){
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+const c=document.getElementById('cf'),x=c.getContext('2d'),cols=['#e11d48','#fb7185','#fda4af','#fbbf24','#be123c'];
+c.width=innerWidth;c.height=innerHeight;
+const p=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,w:6+Math.random()*6,h:8+Math.random()*8,v:2+Math.random()*3,s:(Math.random()-.5)*2,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*5|0]}));
+let f=0;
+(function t(){x.clearRect(0,0,c.width,c.height);p.forEach(q=>{q.y+=q.v;q.x+=q.s;q.r+=q.vr;x.save();x.translate(q.x,q.y);x.rotate(q.r);x.fillStyle=q.c;x.fillRect(-q.w/2,-q.h/2,q.w,q.h);x.restore()});if(++f<260)requestAnimationFrame(t);else x.clearRect(0,0,c.width,c.height)})();
+}
+app.addEventListener('click',e=>{
+const b=e.target.closest('button,a');if(!b)return;
+const g=b.dataset.go;
+if(g==='start'){i=0;render()}
+else if(g==='back'){i--;render()}
+else if(g==='again'){a=[];i=-1;render()}
+else if(g==='share'){share(b)}
+else if(g==='next'){const t=document.getElementById('tx'),v=t.value.trim();if(!v){if(Q[i].w&&a[i]){i++;render();return}document.getElementById('er').textContent=Q[i].er;t.focus();return}a[i]=v;i++;render()}
+else if(g==='fin'){i++;render();confetti()}
+else if(b.dataset.v&&b.dataset.v===Q[i].wl){a[i]='';app.querySelectorAll('.card').forEach(c=>c.classList.toggle('on',c===b));document.getElementById('wr').hidden=false;document.getElementById('tx').focus()}
+else if(b.dataset.v&&!lock){a[i]=b.dataset.v;lock=1;app.querySelectorAll('.card').forEach(c=>c.classList.toggle('on',c===b));setTimeout(()=>{lock=0;i++;render()},300)}
+});
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='tx'){e.preventDefault();app.querySelector('[data-go=next]').click()}});
+app.addEventListener('input',e=>{const r=document.getElementById('er');if(r)r.textContent=''});
+render();
+</script>
+</body>
+</html>
